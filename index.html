@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fc9ed0;
+            font-family: 'Lexend', sans-serif;
+            color: #fefff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        #greeting, #question, #question2, #nextPage, #question4, #question5, #finalPage, #lastPage, #adText, #finalMessage {
+            font-size: clamp(18px, 4vw, 24px);
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #greeting {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .button {
+            background-color: #fefff;
+            color: #000000;
+            padding: 15px 40px;
+            border-radius: 15px;
+            border: none;
+            font-family: 'Lexend', sans-serif;
+            font-size: clamp(16px, 3vw, 18px);
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #question, #question2, #nextPage, #question4, #question5, #finalPage, #lastPage, #adText, #finalMessage, #imageContainer {
+            display: none;
+        }
+
+        .answerInput {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #fefff;
+            color: #000000;
+            font-family: 'Lexend', sans-serif;
+            font-size: clamp(16px, 3vw, 18px);
+            text-align: center;
+            outline: none;
+            width: min(200px, 80%);
+        }
+
+        .answerInput::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .feedback {
+            margin-top: 15px;
+            font-size: clamp(16px, 3vw, 18px);
+            display: none;
+        }
+
+        .fade {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .show {
+            opacity: 1;
+        }
+
+        #valentineImage {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #imageContainer {
+            max-width: 90%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="greeting"></div>
+    <button class="button" id="startButton">start</button>
+    <div id="question">
+        which winged figure, often seen w a bow and arrow, has the power to strike hearts w a single shot?
+        <input type="text" class="answerInput" id="answerInput1" placeholder="Type your answer here...">
+        <div class="feedback" id="feedback1"></div>
+    </div>
+    <div id="question2">
+        what flower, often handed to someone special, is said to symbolize deep love, with petals that open to reveal its full beauty?
+        <input type="text" class="answerInput" id="answerInput2" placeholder="Type your answer here...">
+        <div class="feedback" id="feedback2"></div>
+    </div>
+    <div id="nextPage">
+        on which day do lovers across the world express their feelings, even though the date itself was named after a martyr?
+        <input type="text" class="answerInput" id="answerInput3" placeholder="Type your answer here...">
+        <div class="feedback" id="feedback3"></div>
+    </div>
+    <div id="question4">
+        what is the sweet treat, often exchanged in a box, that seems to be as important to valentines day as flowers?
+        <input type="text" class="answerInput" id="answerInput4" placeholder="Type your answer here...">
+        <div class="feedback" id="feedback4"></div>
+    </div>
+    <div id="question5">
+        what is the name of the saint who, despite being imprisoned, is said to have sent a love letter from his cell - starting the tradition of love notes?
+        <input type="text" class="answerInput" id="answerInput5" placeholder="Type your answer here...">
+        <div class="feedback" id="feedback5"></div>
+    </div>
+    <div id="finalPage">
+        what sweet red fruit, shaped like a heart, often appears on the table as a symbol of love and desire, especially in the month of february?
+        <input type="text" class="answerInput" id="answerInput6" placeholder="Type your answer here...">
+        <div class="feedback" id="feedback6"></div>
+    </div>
+    <div id="lastPage">wow, u actually made it this far 😨</div>
+    <div id="adText">as promised, ull receive ur gift (right after a quick ad 😛)</div>
+    <div id="finalMessage">
+        happy valentines day, my gorgeous girl we cant do much tgt this years valentines butttt, wait a few more months nd well be able to do everything tgt. im sorry i cant fly out rn to spend valentines day w u, i badly wanna buy u flowers nd chocolates nd stuffed toys eughgh. anw, i js wanna say thank u for choosing to take me back despite all the problems, thank u for staying. rmb, iloveyou lots, always. hv a good day tday, but not too good bcz its not w me LMAOAOAOAOOO. thats all i wanna say. ILOVEYOUUUUUU
+        <button class="button" id="nextButton">next</button>
+    </div>
+    <div id="imageContainer">
+        <img id="valentineImage" src="./valentine.jpg" alt="Valentine Image">
+        <!-- https://github.com/vlnv09/luh/blob/main/cej.jpg?raw=true -->
+    </div>
+
+    <script>
+        const messages = [
+            "HI BABYYYY",
+            "HAPPY VALENTINES DAY 😝",
+            "i hv a game prepared for u. in the end, ull find a v v gorgeous gift 😛",
+            "in the first web i sent u a few days ago, i gave u some hints. lets hope u still rmb them 🌚",
+            "click the button below so u can start ☺️"
+        ];
+
+        const greetingDiv = document.getElementById('greeting');
+        const startButton = document.getElementById('startButton');
+        const questionDiv = document.getElementById('question');
+        const question2Div = document.getElementById('question2');
+        const nextPageDiv = document.getElementById('nextPage');
+        const question4Div = document.getElementById('question4');
+        const question5Div = document.getElementById('question5');
+        const finalPageDiv = document.getElementById('finalPage');
+        const lastPageDiv = document.getElementById('lastPage');
+        const adTextDiv = document.getElementById('adText');
+        const finalMessageDiv = document.getElementById('finalMessage');
+        const imageContainer = document.getElementById('imageContainer');
+        const nextButton = document.getElementById('nextButton');
+        const answerInput1 = document.getElementById('answerInput1');
+        const answerInput2 = document.getElementById('answerInput2');
+        const answerInput3 = document.getElementById('answerInput3');
+        const answerInput4 = document.getElementById('answerInput4');
+        const answerInput5 = document.getElementById('answerInput5');
+        const answerInput6 = document.getElementById('answerInput6');
+        const feedback1 = document.getElementById('feedback1');
+        const feedback2 = document.getElementById('feedback2');
+        const feedback3 = document.getElementById('feedback3');
+        const feedback4 = document.getElementById('feedback4');
+        const feedback5 = document.getElementById('feedback5');
+        const feedback6 = document.getElementById('feedback6');
+        let currentMessage = 0;
+
+        function showMessage() {
+            if (currentMessage < messages.length) {
+                greetingDiv.style.opacity = '0';
+                
+                setTimeout(() => {
+                    greetingDiv.textContent = messages[currentMessage];
+                    greetingDiv.style.opacity = '1';
+                    
+                    if (currentMessage === messages.length - 1) {
+                        startButton.style.display = 'inline-block';
+                    }
+                    
+                    currentMessage++;
+                }, 500);
+            }
+        }
+
+        showMessage();
+        setInterval(showMessage, 3000);
+
+        startButton.addEventListener('click', () => {
+            greetingDiv.style.display = 'none';
+            startButton.style.display = 'none';
+            questionDiv.style.display = 'block';
+        });
+
+        nextButton.addEventListener('click', () => {
+            finalMessageDiv.classList.add('fade');
+            setTimeout(() => {
+                finalMessageDiv.style.display = 'none';
+                imageContainer.style.display = 'block';
+                setTimeout(() => {
+                    imageContainer.classList.add('show');
+                }, 100);
+            }, 500);
+        });
+
+        answerInput1.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer1();
+            }
+        });
+
+        answerInput2.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer2();
+            }
+        });
+
+        answerInput3.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer3();
+            }
+        });
+
+        answerInput4.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer4();
+            }
+        });
+
+        answerInput5.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer5();
+            }
+        });
+
+        answerInput6.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer6();
+            }
+        });
+
+        function checkAnswer1() {
+            const answer = answerInput1.value.trim().toLowerCase();
+            if (answer === 'cupid') {
+                feedback1.style.display = 'block';
+                feedback1.textContent = 'correct! good job, baby';
+                feedback1.style.color = '#3f5a36';
+                
+                setTimeout(() => {
+                    questionDiv.style.display = 'none';
+                    question2Div.style.display = 'block';
+                }, 1500);
+            } else {
+                feedback1.style.display = 'block';
+                feedback1.textContent = 'incorrect. try again';
+                feedback1.style.color = '#8a0103';
+                answerInput1.value = '';
+            }
+        }
+
+        function checkAnswer2() {
+            const answer = answerInput2.value.trim().toLowerCase();
+            const validAnswers = ['roses', 'red roses', 'red rose', 'rose'];
+            if (validAnswers.includes(answer)) {
+                feedback2.style.display = 'block';
+                feedback2.textContent = 'correct! good job, baby';
+                feedback2.style.color = '#3f5a36';
+                
+                setTimeout(() => {
+                    question2Div.style.display = 'none';
+                    nextPageDiv.style.display = 'block';
+                }, 1500);
+            } else {
+                feedback2.style.display = 'block';
+                feedback2.textContent = 'incorrect. try again';
+                feedback2.style.color = '#8a0103';
+                answerInput2.value = '';
+            }
+        }
+
+        function checkAnswer3() {
+            const answer = answerInput3.value.trim().toLowerCase();
+            const validAnswers = ['valentines day', 'valentine\'s day', 'valentines', 'valentine\'s', 'feb 14', 'february 14', 'february 14th'];
+            if (validAnswers.includes(answer)) {
+                feedback3.style.display = 'block';
+                feedback3.textContent = 'correct! good job, baby';
+                feedback3.style.color = '#3f5a36';
+                
+                setTimeout(() => {
+                    nextPageDiv.style.display = 'none';
+                    question4Div.style.display = 'block';
+                }, 1500);
+            } else {
+                feedback3.style.display = 'block';
+                feedback3.textContent = 'incorrect. try again';
+                feedback3.style.color = '#8a0103';
+                answerInput3.value = '';
+            }
+        }
+
+        function checkAnswer4() {
+            const answer = answerInput4.value.trim().toLowerCase();
+            const validAnswers = ['chocolates', 'chocos', 'candy', 'candies'];
+            if (validAnswers.includes(answer)) {
+                feedback4.style.display = 'block';
+                feedback4.textContent = 'correct! good job, baby';
+                feedback4.style.color = '#3f5a36';
+                
+                setTimeout(() => {
+                    question4Div.style.display = 'none';
+                    question5Div.style.display = 'block';
+                }, 1500);
+            } else {
+                feedback4.style.display = 'block';
+                feedback4.textContent = 'incorrect. try again';
+                feedback4.style.color = '#8a0103';
+                answerInput4.value = '';
+            }
+        }
+
+        function checkAnswer5() {
+            const answer = answerInput5.value.trim().toLowerCase();
+            const validAnswers = ['st. valentine', 'valentine', 'saint valentine'];
+            if (validAnswers.includes(answer)) {
+                feedback5.style.display = 'block';
+                feedback5.textContent = 'correct! good job, baby';
+                feedback5.style.color = '#3f5a36';
+                
+                setTimeout(() => {
+                    question5Div.style.display = 'none';
+                    finalPageDiv.style.display = 'block';
+                }, 1500);
+            } else {
+                feedback5.style.display = 'block';
+                feedback5.textContent = 'incorrect. try again';
+                feedback5.style.color = '#8a0103';
+                answerInput5.value = '';
+            }
+        }
+
+        function checkAnswer6() {
+            const answer = answerInput6.value.trim().toLowerCase();
+            const validAnswers = ['strawberry', 'strawberries'];
+            if (validAnswers.includes(answer)) {
+                feedback6.style.display = 'block';
+                feedback6.textContent = 'correct! good job, baby';
+                feedback6.style.color = '#3f5a36';
+                
+                setTimeout(() => {
+                    finalPageDiv.style.display = 'none';
+                    lastPageDiv.style.display = 'block';
+                    startFinalSequence();
+                }, 1500);
+            } else {
+                feedback6.style.display = 'block';
+                feedback6.textContent = 'incorrect. try again';
+                feedback6.style.color = '#8a0103';
+                answerInput6.value = '';
+            }
+        }
+
+        function startFinalSequence() {
+            setTimeout(() => {
+                lastPageDiv.classList.add('fade');
+                setTimeout(() => {
+                    lastPageDiv.style.display = 'none';
+                    adTextDiv.style.display = 'block';
+                    setTimeout(() => {
+                        adTextDiv.classList.add('show');
+                    }, 100);
+
+                    setTimeout(() => {
+                        adTextDiv.classList.add('fade');
+                        setTimeout(() => {
+                            adTextDiv.style.display = 'none';
+                            finalMessageDiv.style.display = 'block';
+                            nextButton.style.display = 'inline-block';
+                            setTimeout(() => {
+                                finalMessageDiv.classList.add('show');
+                            }, 100);
+                        }, 500);
+                    }, 3000);
+                }, 500);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
